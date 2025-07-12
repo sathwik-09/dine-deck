@@ -20,6 +20,7 @@ const venderRegister = async(req, res) => {
       res.status(201).json({ message: "Vendor registered successfully" });
     }
     catch(err){
+      console.error(err);
       res.status(500).json({ message: "Internal server error" });
     }
 };
@@ -39,7 +40,33 @@ const vendorLogin = async (req,res) => {
   }
 }
 
+const getAllVendors = async (req, res) => {
+  try {
+    const vendors = await Vendor.find().populate('firm');
+    res.json({vendors});
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+const getVendorById = async (req, res) => {
+  const vendorId = req.params.id;
+  try {
+    const vendor = await Vendor.findById(vendorId);
+    if(!vendor) {
+      return res.status(404).json({error : "Vendor does not exist"});
+    }
+    res.status(200).json({vendor});
+  } catch (error) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+}
+
 module.exports = {
   venderRegister,
-  vendorLogin
+  vendorLogin,
+  getAllVendors,
+  getVendorById
 };
