@@ -9,7 +9,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
       cb(null, Date.now() + '-' + file.originalname);
     }
-  });
+});
 
   const upload = multer({storage: storage});
 
@@ -35,6 +35,30 @@ const addFirm = async(req,res) => {
     console.error(err);
     res.status(500).json({message: "Internal server error"});
   } 
+}
+
+const getAllFirms = async(req, res) => {
+  try {
+    const firms = await Firm.find().populate('vendor');
+    res.json({firms});
+  }
+  catch(err) {
+    console.error(err);
+    res.status(500).json({message: "Internal server error"});
+  }
+}
+
+const getFirmById = async(req, res) => {
+  const firmId = req.params.id;
+  try {
+    const firm = await Firm.findById(firmId);
+    if(!firm) return res.status(404).json({message: "Firm not found"});
+    res.status(200).json({firm});
+  }
+  catch(err) {
+    console.error(err);
+    res.status(500).json({message: "Internal server error"});
+  }
 }
 
 module.exports = {addFirm: [upload.single('image'), addFirm]}
