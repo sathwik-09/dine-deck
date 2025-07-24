@@ -7,7 +7,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 
-const venderRegister = async(req, res) => {
+const vendorRegister = async(req, res) => {
     const { username, email, password } = req.body;
     try{
       const vendorEmail = await Vendor.findOne({ email });
@@ -33,10 +33,10 @@ const vendorLogin = async (req,res) => {
       return res.status(401).json({message: "Email or password is incorrect"})
     }
     const token = jwt.sign({vendorId: vendor._id}, process.env.JWT_KEY, {expiresIn: "1h"});
-    res.status(200).json({success: "Login Successful", token});
+    res.status(200).json({message: "Login Successful", token});
   }
   catch(err) {
-    res.status(400).json("Error");
+    res.status(500).json({ message: "Internal server error" });
   }
 }
 
@@ -58,14 +58,14 @@ const getVendorById = async (req, res) => {
       return res.status(404).json({error : "Vendor does not exist"});
     }
     res.status(200).json({vendor});
-  } catch (error) {
+  } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 }
 
 module.exports = {
-  venderRegister,
+  vendorRegister,
   vendorLogin,
   getAllVendors,
   getVendorById
