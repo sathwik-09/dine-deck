@@ -53,7 +53,7 @@ const getAllVendors = async (req, res) => {
 const getVendorById = async (req, res) => {
   const vendorId = req.params.id;
   try {
-    const vendor = await Vendor.findById(vendorId);
+    const vendor = await Vendor.findById(vendorId).populate('firm');
     if(!vendor) {
       return res.status(404).json({error : "Vendor does not exist"});
     }
