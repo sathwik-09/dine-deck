@@ -37,7 +37,14 @@ const FirmSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Vendor'
     }
-  ]
+  ],
+  products: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product'
+        }
+    ]
+
 })
 
 const Firm = mongoose.model("Firm", FirmSchema);

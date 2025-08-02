@@ -1,8 +1,9 @@
 const express = require("express");
-const firmController = require("../controllers/firmController");
-const router = express.Router();
-const verifyToken = require("../middlewares/verifyToken").default;
+const { addFirm } = require("../controllers/firmController");
+const verifyToken = require("../middlewares/verifyToken");
 
-router.post("/add-firm", verifyToken, firmController.addFirm);
+const router = express.Router();
+
+router.post("/add-firm", verifyToken, addFirm);
 
 module.exports = router;
