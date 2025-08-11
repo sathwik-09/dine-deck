@@ -15,8 +15,8 @@ const vendorRegister = async(req, res) => {
         return res.status(400).json({ message: "Email already exists" });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
-      const newVender = new Vendor({ username, email, password: hashedPassword });
-      await newVender.save();
+      const newVendor = new Vendor({ username, email, password: hashedPassword });
+      await newVendor.save();
       res.status(201).json({ message: "Vendor registered successfully" });
     }
     catch(err){
